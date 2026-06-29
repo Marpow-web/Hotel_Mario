@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Mario – Willkommen Frau Landes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+      --text-3xl: clamp(2.5rem, 1rem + 4vw, 5rem);
+
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-20: 5rem;
+
+      --color-bg: #f7f3ee;
+      --color-surface: #fcfaf7;
+      --color-surface-2: #f3ece4;
+      --color-surface-offset: #efe4d8;
+      --color-border: rgba(61, 44, 31, 0.14);
+      --color-divider: rgba(61, 44, 31, 0.08);
+      --color-text: #2f241d;
+      --color-text-muted: #6e6156;
+      --color-text-faint: #9a8f85;
+      --color-primary: #8c5a2b;
+      --color-primary-hover: #6f451f;
+      --color-accent: #d6b27c;
+      --color-success: #3f6a50;
+      --color-chip: rgba(140, 90, 43, 0.1);
+      --color-hero: radial-gradient(circle at top right, rgba(214,178,124,0.35), transparent 34%), linear-gradient(135deg, #fffaf4 0%, #f4ebe1 55%, #efe4d8 100%);
+      --radius-sm: 0.5rem;
+      --radius-md: 0.8rem;
+      --radius-lg: 1.2rem;
+      --radius-xl: 1.6rem;
+      --radius-full: 999px;
+      --shadow-sm: 0 8px 24px rgba(67, 44, 20, 0.08);
+      --shadow-md: 0 18px 50px rgba(67, 44, 20, 0.14);
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Manrope', system-ui, sans-serif;
+      --content: 1180px;
+      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    [data-theme="dark"] {
+      --color-bg: #171310;
+      --color-surface: #201a16;
+      --color-surface-2: #28211c;
+      --color-surface-offset: #302720;
+      --color-border: rgba(245, 230, 213, 0.12);
+      --color-divider: rgba(245, 230, 213, 0.08);
+      --color-text: #f4ecdf;
+      --color-text-muted: #c2b3a4;
+      --color-text-faint: #8f8073;
+      --color-primary: #d6b27c;
+      --color-primary-hover: #ebc898;
+      --color-accent: #8c5a2b;
+      --color-success: #8ec59e;
+      --color-chip: rgba(214,178,124,0.12);
+      --color-hero: radial-gradient(circle at top right, rgba(214,178,124,0.16), transparent 36%), linear-gradient(135deg, #231c17 0%, #191411 50%, #140f0c 100%);
+      --shadow-sm: 0 8px 24px rgba(0,0,0,0.28);
+      --shadow-md: 0 18px 50px rgba(0,0,0,0.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: 1.6;
+      color: var(--color-text);
+      background: var(--color-bg);
+    }
+    img, svg { display: block; max-width: 100%; }
+    button, input, select, textarea { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: 0; background: none; }
+    :focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+    .skip-link {
+      position: absolute;
+      left: var(--space-4);
+      top: -3rem;
+      background: var(--color-primary);
+      color: #fff;
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-full);
+      z-index: 200;
+    }
+    .skip-link:focus { top: var(--space-4); }
+    .container { width: min(calc(100% - 2rem), var(--content)); margin-inline: auto; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: color-mix(in srgb, var(--color-bg) 82%, transparent);
+      border-bottom: 1px solid var(--color-divider);
+    }
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      padding: var(--space-4) 0;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      min-height: 44px;
+    }
+    .logo {
+      width: 44px;
+      height: 44px;
+      color: var(--color-primary);
+      background: var(--color-chip);
+      border-radius: 50%;
+      padding: 0.45rem;
+    }
+    .brand-text strong {
+      display: block;
+      font-size: var(--text-sm);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .brand-text span {
+      color: var(--color-text-muted);
+      font-size: var(--text-xs);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      justify-content: center;
+    }
+    nav a {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.72rem 1rem;
+      border-radius: var(--radius-full);
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+      transition: background var(--transition), color var(--transition), transform var(--transition);
+    }
+    nav a:hover, nav a.active {
+      background: var(--color-chip);
+      color: var(--color-primary);
+      transform: translateY(-1px);
+    }
+    .theme-toggle {
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 50%;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    main { padding-bottom: var(--space-20); }
+    section { padding: clamp(var(--space-10), 7vw, var(--space-20)) 0; scroll-margin-top: 6rem; }
+
+    .hero {
+      padding-top: clamp(var(--space-10), 9vw, 7rem);
+    }
+    .hero-card {
+      background: var(--color-hero);
+      border: 1px solid var(--color-border);
+      border-radius: calc(var(--radius-xl) + 0.3rem);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.25fr 0.85fr;
+    }
+    .hero-copy, .hero-side { padding: clamp(var(--space-8), 5vw, var(--space-16)); }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--radius-full);
+      background: rgba(255,255,255,0.45);
+      color: var(--color-primary);
+      font-size: var(--text-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-5);
+      font-weight: 700;
+    }
+    h1, h2, h3 { font-family: var(--font-display); line-height: 1.05; }
+    h1 { font-size: var(--text-3xl); margin-bottom: var(--space-5); }
+    .lead {
+      color: var(--color-text-muted);
+      max-width: 58ch;
+      margin-bottom: var(--space-8);
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+    .btn {
+      min-height: 48px;
+      padding: 0.9rem 1.2rem;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      font-weight: 700;
+      transition: transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
+      border: 1px solid transparent;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--color-primary); color: #fff; }
+    .btn-primary:hover { background: var(--color-primary-hover); }
+    .btn-secondary {
+      background: var(--color-surface);
+      border-color: var(--color-border);
+      color: var(--color-text);
+    }
+    .hero-side {
+      border-left: 1px solid var(--color-border);
+      background: color-mix(in srgb, var(--color-surface) 72%, transparent);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-8);
+    }
+    .mini-card {
+      padding: var(--space-5);
+      border-radius: var(--radius-lg);
+      background: color-mix(in srgb, var(--color-surface) 84%, transparent);
+      border: 1px solid var(--color-border);
+    }
+    .mini-card strong {
+      display: block;
+      margin-bottom: var(--space-2);
+      font-size: var(--text-sm);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+    }
+    .mini-card p { color: var(--color-text-muted); }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: var(--space-4);
+      margin-bottom: var(--space-8);
+      flex-wrap: wrap;
+    }
+    .section-head p { max-width: 62ch; color: var(--color-text-muted); }
+    h2 { font-size: var(--text-2xl); }
+    h3 { font-size: clamp(1.5rem, 1.1rem + 1vw, 2rem); }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--space-6);
+    }
+    .panel {
+      grid-column: span 12;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
+      padding: clamp(var(--space-6), 3vw, var(--space-8));
+    }
+    .panel.soft { background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface-2) 100%); }
+    .chips { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 0.55rem 0.85rem;
+      border-radius: var(--radius-full);
+      background: var(--color-chip);
+      color: var(--color-primary);
+      font-size: var(--text-sm);
+      font-weight: 700;
+    }
+
+    .order-summary {
+      background: color-mix(in srgb, var(--color-success) 11%, var(--color-surface));
+      border: 1px dashed color-mix(in srgb, var(--color-success) 44%, transparent);
+    }
+
+    form { display: grid; gap: var(--space-6); }
+    fieldset {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      background: var(--color-surface-2);
+    }
+    legend {
+      padding: 0 var(--space-2);
+      font-weight: 800;
+      color: var(--color-primary);
+      font-size: var(--text-sm);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-4);
+    }
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: var(--space-4);
+      border-radius: var(--radius-md);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      min-height: 64px;
+    }
+    .option input, .option select { margin-top: 0.2rem; }
+    .option span small, .muted { display: block; color: var(--color-text-muted); font-size: var(--text-sm); }
+    label.inline, .inline-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+    input[type="number"], select, textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      color: var(--color-text);
+      min-height: 48px;
+    }
+    textarea { min-height: 120px; resize: vertical; }
+    .summary-box {
+      display: grid;
+      gap: var(--space-3);
+      padding: var(--space-5);
+      border-radius: var(--radius-lg);
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border);
+    }
+    .summary-box ul { list-style: none; display: grid; gap: var(--space-2); }
+    .summary-box li { color: var(--color-text-muted); }
+    .price-line {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-3);
+      align-items: center;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+    .status {
+      margin-top: var(--space-4);
+      font-weight: 700;
+      color: var(--color-success);
+      min-height: 1.5em;
+    }
+
+    .menu-list, .wellness-list, .stream-list {
+      display: grid;
+      gap: var(--space-4);
+      margin-top: var(--space-5);
+    }
+    .menu-item, .wellness-item, .stream-item {
+      padding: var(--space-5);
+      border-radius: var(--radius-lg);
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border);
+    }
+    .menu-item strong, .stream-item strong, .wellness-item strong {
+      display: block;
+      color: var(--color-primary);
+      margin-bottom: var(--space-2);
+      font-size: var(--text-lg);
+    }
+    .stream-top {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-4);
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: var(--space-2);
+    }
+    .service-tag {
+      padding: 0.45rem 0.8rem;
+      border-radius: var(--radius-full);
+      background: var(--color-chip);
+      color: var(--color-primary);
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+    }
+    footer {
+      padding: var(--space-10) 0 var(--space-16);
+      border-top: 1px solid var(--color-divider);
+      color: var(--color-text-muted);
+    }
+
+    @media (min-width: 900px) {
+      .span-7 { grid-column: span 7; }
+      .span-5 { grid-column: span 5; }
+      .span-6 { grid-column: span 6; }
+    }
+
+    @media (max-width: 920px) {
+      .hero-card { grid-template-columns: 1fr; }
+      .hero-side { border-left: 0; border-top: 1px solid var(--color-border); }
+    }
+
+    @media (max-width: 720px) {
+      .nav-wrap { justify-content: center; }
+      .hero-actions, .section-head { align-items: stretch; }
+      .container { width: min(calc(100% - 1.25rem), var(--content)); }
+      nav ul { justify-content: flex-start; }
+      .panel { padding: var(--space-5); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#content" class="skip-link">Zum Inhalt springen</a>
+  <header>
+    <div class="container nav-wrap">
+      <div class="brand" aria-label="Hotel Mario">
+        <svg class="logo" viewBox="0 0 64 64" role="img" aria-label="Hotel Mario Monogramm">
+          <circle cx="32" cy="32" r="30" fill="currentColor" opacity="0.12"></circle>
+          <path d="M18 44V20h7l7 10 7-10h7v24h-7V31l-7 10-7-10v13z" fill="currentColor"></path>
+        </svg>
+        <div class="brand-text">
+          <strong>Hotel Mario</strong>
+          <span>Fünf Sterne Gastlichkeit</span>
+        </div>
+      </div>
+      <nav aria-label="Hauptnavigation">
+        <ul>
+          <li><a href="#welcome" class="active">Willkommen</a></li>
+          <li><a href="#fruehstueck">Frühstücksmenü</a></li>
+          <li><a href="#dinner">Dinner</a></li>
+          <li><a href="#wellness">Wellness-Bereich</a></li>
+          <li><a href="#entertainment">Entertainment</a></li>
+        </ul>
+      </nav>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Zu dunklem Modus wechseln">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"></circle>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="content">
+    <section class="hero" id="welcome">
+      <div class="container">
+        <div class="hero-card">
+          <div class="hero-copy">
+            <div class="eyebrow">Suite-Service · Persönlich für Sie</div>
+            <h1>Herzlich willkommen Frau Landes!</h1>
+            <p class="lead">Fühlen Sie sich wohl und genießen Sie Ihren Aufenthalt im Hotel Mario. Unser Haus steht für aufmerksamen Service, stilvolle Ruhe und liebevolle Details, damit jeder Moment Ihres Aufenthalts angenehm, entspannt und besonders bleibt.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#fruehstueck">Frühstück auswählen</a>
+              <a class="btn btn-secondary" href="#wellness">Wellness entdecken</a>
+            </div>
+          </div>
+          <aside class="hero-side" aria-label="Schnellübersicht">
+            <div class="mini-card">
+              <strong>Frühstück am Morgen</strong>
+              <p>Wählen Sie Ihr Frühstück komfortabel vorab aus und lassen Sie uns Ihre Wünsche für den nächsten Morgen stilvoll vorbereiten.</p>
+            </div>
+            <div class="mini-card">
+              <strong>Ihre Genussmomente</strong>
+              <p>Dinner, Massage und Unterhaltung sind in übersichtlichen Bereichen für Sie zusammengestellt — freundlich, elegant und mit einem Augenzwinkern.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="fruehstueck">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Frühstücksmenü</div>
+            <h2>Wählen Sie Ihr Frühstück</h2>
+          </div>
+          <p>Stellen Sie Ihr persönliches Frühstück für den nächsten Morgen zusammen. Das Frühstücksmenü kostet einen Fixpreis von <strong>1 Umarmung</strong>; der Aufpreis für die Lieferung ans Bett beträgt <strong>1 Kuss</strong>.</p>
+        </div>
+
+        <div class="card-grid">
+          <article class="panel span-7 soft">
+            <form id="breakfastForm">
+              <fieldset>
+                <legend>Müsli</legend>
+                <div class="option-grid">
+                  <label class="option"><input type="radio" name="muesli" value="Müsli – Schokolade"><span>Müsli – Schokolade<small>Knusprig, schokoladig und morgens besonders beliebt.</small></span></label>
+                  <label class="option"><input type="radio" name="muesli" value="Kein Müsli" checked><span>Kein Müsli<small>Falls Sie lieber andere Köstlichkeiten genießen möchten.</small></span></label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Eierspeisen</legend>
+                <div class="option-grid">
+                  <label class="option"><input type="checkbox" name="eierspeise" value="Rührei"><span>Rührei</span></label>
+                  <label class="option"><input type="checkbox" name="eierspeise" value="Spiegelei"><span>Spiegelei</span></label>
+                  <label class="option"><input type="checkbox" name="eierspeise" value="Eggs Benedict - zumindest ein Versuch"><span>Eggs Benedict - zumindest ein Versuch</span></label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Toast & Belag</legend>
+                <div class="option-grid">
+                  <label>
+                    <span class="muted">Anzahl Toasts</span>
+                    <input type="number" id="toastCount" min="0" max="12" value="2">
+                  </label>
+                </div>
+                <div class="option-grid">
+                  <label class="option"><input type="checkbox" name="belag" value="Frischkäse"><span>Frischkäse</span></label>
+                  <label class="option"><input type="checkbox" name="belag" value="Gurke"><span>Gurke</span></label>
+                  <label class="option"><input type="checkbox" name="belag" value="Honig"><span>Honig</span></label>
+                  <label class="option"><input type="checkbox" name="belag" value="Himbeermarmelade"><span>Himbeermarmelade</span></label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Tomate & Mozzarella</legend>
+                <div class="option-grid">
+                  <label class="option"><input type="radio" name="tomateMozzarella" value="Tomate und Mozzarella – mit Salz und Pfeffer" checked><span>Mit Salz und Pfeffer</span></label>
+                  <label class="option"><input type="radio" name="tomateMozzarella" value="Tomate und Mozzarella – ohne Salz und Pfeffer"><span>Ohne Salz und Pfeffer</span></label>
+                  <label class="option"><input type="radio" name="tomateMozzarella" value="Keine Tomate und Mozzarella"><span>Heute nicht</span></label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Warme Speisen</legend>
+                <div class="option-grid">
+                  <label class="option"><input type="checkbox" id="porridge" value="Haferbrei nach Art des Hauses"><span>Haferbrei nach Art des Hauses<small>Sanft gekocht, wohltuend und herrlich cremig.</small></span></label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Getränke</legend>
+                <div class="option-grid">
+                  <label>
+                    <span class="muted">Tee-Sorte</span>
+                    <select id="teaType">
+                      <option value="Kein Tee">Kein Tee</option>
+                      <option value="Tee – Schwarztee">Schwarztee</option>
+                      <option value="Tee – Grüntee">Grüntee</option>
+                      <option value="Tee – Pfefferminze">Pfefferminze</option>
+                      <option value="Tee – Kamille">Kamille</option>
+                      <option value="Tee – Früchtetee">Früchtetee</option>
+                      <option value="Tee – Schneetee">Schneetee</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="option-grid">
+                  <label class="option"><input type="checkbox" name="drink" value="Wasser"><span>Wasser</span></label>
+                  <label class="option"><input type="checkbox" name="drink" value="Kaffee"><span>Kaffee</span></label>
+                  <label class="option"><input type="checkbox" name="drink" value="Milch"><span>Milch</span></label>
+                  <label class="option"><input type="checkbox" name="drink" value="Cola 007"><span>Cola 007</span></label>
+                  <label class="option"><input type="checkbox" name="drink" value="Spezi Zero"><span>Spezi Zero</span></label>
+                  <label class="option"><input type="checkbox" name="drink" value="Matcha"><span>Matcha</span></label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Service</legend>
+                <div class="option-grid">
+                  <label class="option"><input type="checkbox" id="bedService" value="Lieferung ans Bett"><span>Lieferung ans Bett<small>Zuschlag: 1 Kuss</small></span></label>
+                </div>
+                <label>
+                  <span class="muted">Zusätzliche Wünsche</span>
+                  <textarea id="note" placeholder="Zum Beispiel: extra heißer Kaffee, Tee mit Honig oder Frühstück etwas später servieren."></textarea>
+                </label>
+              </fieldset>
+
+              <div class="inline-row">
+                <button class="btn btn-primary" type="submit">Frühstück bestätigen</button>
+                <button class="btn btn-secondary" type="reset">Auswahl zurücksetzen</button>
+              </div>
+              <p class="status" id="statusMessage" aria-live="polite"></p>
+            </form>
+          </article>
+
+          <aside class="panel span-5 order-summary">
+            <div class="section-head" style="margin-bottom: 1rem;">
+              <div>
+                <div class="eyebrow">Ihre Übersicht</div>
+                <h3>Frühstückswunsch</h3>
+              </div>
+            </div>
+            <div class="summary-box">
+              <ul id="summaryList">
+                <li>Müsli: Kein Müsli</li>
+                <li>Eierspeisen: Keine Auswahl</li>
+                <li>Toasts: 2</li>
+                <li>Belag: Noch nicht ausgewählt</li>
+                <li>Tomate & Mozzarella: Mit Salz und Pfeffer</li>
+                <li>Warme Speisen: Keine Auswahl</li>
+                <li>Getränke: Keine Auswahl</li>
+                <li>Service: Standardservice</li>
+                <li>Notiz: Keine besonderen Wünsche</li>
+              </ul>
+              <div class="price-line"><span>Frühstück</span><span>1 Umarmung</span></div>
+              <div class="price-line"><span>Lieferung ans Bett</span><span id="bedPrice">—</span></div>
+            </div>
+            <div class="chips" aria-label="Inklusivleistungen">
+              <span class="chip">Hausgemacht</span>
+              <span class="chip">Mit Liebe serviert</span>
+              <span class="chip">Persönlich zusammengestellt</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="dinner">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Dinner</div>
+            <h2>Abendmenü des Hauses</h2>
+          </div>
+          <p>Das Abendessen ist im Hotelaufenthalt inbegriffen und wird mit ausgesuchter Sorgfalt serviert — ohne zusätzliche Kosten.</p>
+        </div>
+        <div class="menu-list">
+          <article class="menu-item">
+            <strong>Vorspeise (auf Wunsch)</strong>
+            <p>Mexikanische Weizentortillas, gefüllt mit einer hausgetroffenen Auswahl an regionalen und internationalen Käsespezialitäten, sautiert und nach Geschmack verfeinert.</p>
+          </article>
+          <article class="menu-item">
+            <strong>Hauptgang (vegetarisch)</strong>
+            <p>Orientalischer Weizenfladen gefüllt mit gemischtem saisonalen Gemüse, Drehspießfleisch-Imitat und süß-knoblauchiger Soßenkombination nach Döner-Art.</p>
+          </article>
+          <article class="menu-item">
+            <strong>Dessert</strong>
+            <p>Hauseigene Auswahl verschiedener saurer, fruchtiger oder cremiger Eisspeisen.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="wellness">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Wellness-Bereich</div>
+            <h2>Massagen zum Loslassen</h2>
+          </div>
+          <p>Jede Massage ist wahlweise mit oder ohne Massageöl erhältlich. Der Preis für jede Anwendung beträgt eine <strong>Kuschelzeit</strong>; Küsse und weitere Ausdrücke von Dankbarkeit werden gerne als eine Art Trinkgeld akzeptiert.</p>
+        </div>
+        <div class="wellness-list">
+          <article class="wellness-item">
+            <strong>Handmassage</strong>
+            <p>Diese wohltuende Handmassage lässt alle deine Sorgen verschwinden und dich ganz in dem Moment sein. Löse dich von stressigen Gedanken und schalte ab, während Schübe von Glücksgefühlen deinen Körper durchfluten.</p>
+            <div class="chips"><span class="chip">Mit oder ohne Massageöl</span><span class="chip">Preis: 1 Kuschelzeit</span></div>
+          </article>
+          <article class="wellness-item">
+            <strong>Kopf- und Gesichtsmassage</strong>
+            <p>Diese sanfte Anwendung wirkt wohltuend auf Stirn, Schläfen und Gesichtsmuskulatur. Sie hilft dabei, innere Anspannung zu lösen, den Blick zu entspannen und den Tag in ruhiger, luxuriöser Atmosphäre ausklingen zu lassen.</p>
+            <div class="chips"><span class="chip">Mit oder ohne Massageöl</span><span class="chip">Preis: 1 Kuschelzeit</span></div>
+          </article>
+          <article class="wellness-item">
+            <strong>Rückenmassage</strong>
+            <p>Die Rückenmassage konzentriert sich auf beanspruchte Partien entlang der Wirbelsäule und schenkt spürbare Entlastung nach einem langen Tag. Ruhige, gezielte Bewegungen fördern ein Gefühl von Leichtigkeit und tiefem körperlichem Wohlbefinden. Auf Wunsch kann diese Massage auch gerne auf den Po ausgeweitet werden. Das Personal würde sich über diese Ausweitung sehr freuen.</p>
+            <div class="chips"><span class="chip">Mit oder ohne Massageöl</span><span class="chip">Preis: 1 Kuschelzeit</span></div>
+          </article>
+          <article class="wellness-item">
+            <strong>Beinmassage</strong>
+            <p>Für Gäste, die viel unterwegs waren oder sich einfach besondere Regeneration wünschen, bietet die Beinmassage eine angenehm revitalisierende Pause. Sie unterstützt das Gefühl entspannter Muskulatur und sorgt für neue Frische vom Oberschenkel bis zur Wade.</p>
+            <div class="chips"><span class="chip">Mit oder ohne Massageöl</span><span class="chip">Preis: 1 Kuschelzeit</span></div>
+          </article>
+          <article class="wellness-item">
+            <strong>Fußmassage</strong>
+            <p>Die Fußmassage lädt dazu ein, sich ganz dem Moment hinzugeben. Mit behutsamen Griffen und einem feinen Gespür für Druck und Rhythmus entsteht ein besonders beruhigendes Pflegeerlebnis, das Körper und Geist gleichermaßen verwöhnt.</p>
+            <div class="chips"><span class="chip">Mit oder ohne Massageöl</span><span class="chip">Preis: 1 Kuschelzeit</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="entertainment">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Entertainment</div>
+            <h2>Streaming-Auswahl im Zimmer</h2>
+          </div>
+          <p>Hier finden Sie eine charmante Übersicht über aktuell stark beachtete Titel der verfügbaren Streamingdienste in Deutschland.</p>
+        </div>
+        <div class="stream-list">
+          <article class="stream-item">
+            <div class="stream-top"><strong>Netflix</strong><span class="service-tag">Deutschland · April 2026</span></div>
+            <p>Unter anderem: Avatar - der Herr der Elemente</p>
+          </article>
+          <article class="stream-item">
+            <div class="stream-top"><strong>Disney +</strong><span class="service-tag">Deutschland · April 2026</span></div>
+            <p>Unter anderem: Marvel's The Punisher</p>
+          </article>
+          <article class="stream-item">
+            <div class="stream-top"><strong>HBO-Max</strong><span class="service-tag">Kuratiert nach HBO-Titeln</span></div>
+            <p>Unter anderem: The Last of Us oder White Lotus</p>
+          </article>
+          <article class="stream-item">
+            <div class="stream-top"><strong>Prime Video</strong><span class="service-tag">Deutschland · April 2026</span></div>
+            <p>Unter anderem: Spider Noir und Laughing out Loud</p>
+          </article>
+          <article class="stream-item">
+            <div class="stream-top"><strong>RTL +</strong><span class="service-tag">Deutschland · April 2026</span></div>
+            <p>Unter anderem: Prominent getrennt und Ex on the Beach</p>
+          </article>
+          <article class="stream-item">
+            <div class="stream-top"><strong>AppleTV +</strong><span class="service-tag">Deutschland · April 2026</span></div>
+            <p>Aktuelle beliebte Serien</p>
+          </article>
+          <article class="stream-item">
+            <div class="stream-top"><strong>Joyn</strong><span class="service-tag">Deutschland · April 2026</span></div>
+            <p>Unter anderem: Schäm dich reich!</p>
+          </article>
+          <article class="stream-item">
+            <div class="stream-top"><strong>Magenta TV</strong><span class="service-tag">Deutschland · Live-Sport</span></div>
+            <p>Täglich wechselnde Spiele der Fußball Weltmeisterschaft</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Hotel Mario wünscht einen angenehmen Aufenthalt, erholsame Stunden und einen genussvollen Start in den nächsten Morgen.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const html = document.documentElement;
+      const themeToggle = document.querySelector('[data-theme-toggle]');
+      let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      html.setAttribute('data-theme', theme);
+
+      const setIcon = () => {
+        themeToggle.innerHTML = theme === 'dark'
+          ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>'
+          : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>';
+        themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Zu hellem Modus wechseln' : 'Zu dunklem Modus wechseln');
+      };
+      setIcon();
+      themeToggle.addEventListener('click', () => {
+        theme = theme === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', theme);
+        setIcon();
+      });
+
+      const links = Array.from(document.querySelectorAll('nav a'));
+      const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+      const onScroll = () => {
+        const pos = window.scrollY + 140;
+        let activeId = '#welcome';
+        sections.forEach(section => {
+          if (section.offsetTop <= pos) activeId = '#' + section.id;
+        });
+        links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === activeId));
+      };
+      document.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      const form = document.getElementById('breakfastForm');
+      const summaryList = document.getElementById('summaryList');
+      const bedPrice = document.getElementById('bedPrice');
+      const statusMessage = document.getElementById('statusMessage');
+
+      function getCheckedValues(name) {
+        return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(input => input.value);
+      }
+
+      function updateSummary() {
+        const muesli = document.querySelector('input[name="muesli"]:checked')?.value || 'Kein Müsli';
+        const eierspeisen = getCheckedValues('eierspeise');
+        const toastCount = document.getElementById('toastCount').value || '0';
+        const belag = getCheckedValues('belag');
+        const tomateMozzarella = document.querySelector('input[name="tomateMozzarella"]:checked')?.value || 'Keine Auswahl';
+        const warm = document.getElementById('porridge').checked ? 'Haferbrei nach Art des Hauses' : 'Keine Auswahl';
+        const teaType = document.getElementById('teaType').value;
+        const drinks = getCheckedValues('drink');
+        const bedService = document.getElementById('bedService').checked;
+        const note = document.getElementById('note').value.trim();
+
+        const drinkList = [];
+        if (teaType !== 'Kein Tee') drinkList.push(teaType);
+        drinkList.push(...drinks);
+
+        summaryList.innerHTML = `
+          <li>Müsli: ${muesli}</li>
+          <li>Eierspeisen: ${eierspeisen.length ? eierspeisen.join(', ') : 'Keine Auswahl'}</li>
+          <li>Toasts: ${toastCount}</li>
+          <li>Belag: ${belag.length ? belag.join(', ') : 'Noch nicht ausgewählt'}</li>
+          <li>Tomate & Mozzarella: ${tomateMozzarella}</li>
+          <li>Warme Speisen: ${warm}</li>
+          <li>Getränke: ${drinkList.length ? drinkList.join(', ') : 'Keine Auswahl'}</li>
+          <li>Service: ${bedService ? 'Lieferung ans Bett' : 'Standardservice'}</li>
+          <li>Notiz: ${note || 'Keine besonderen Wünsche'}</li>
+        `;
+        bedPrice.textContent = bedService ? '1 Kuss' : '—';
+      }
+
+      form.addEventListener('input', updateSummary);
+      form.addEventListener('change', updateSummary);
+      form.addEventListener('reset', () => {
+        requestAnimationFrame(() => {
+          statusMessage.textContent = '';
+          updateSummary();
+        });
+      });
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        updateSummary();
+        statusMessage.textContent = 'Vielen Dank. Ihr Frühstückswunsch wurde stilvoll notiert und für den nächsten Morgen vorgemerkt.';
+      });
+
+      updateSummary();
+    })();
+  </script>
+</body>
+</html>
